@@ -2,12 +2,11 @@
 
 ## Introduction
 
-This is the code for the Chrome Extension of the URL Shortener [xav.cc](http://xav.cc/).
-
+This is the code for the Chrome Extension of the URL Shortener [xav.cc](http://xav.cc/). The plugin can be installed at [http://xav.cc/chrome-extension](http://xav.cc/chrome-extension)
 
 ## License
 
-This extension is licensed under the MIT license.
+This extension is licensed under the MIT license. Feel free to fork, commit and redistribute!
 
 ## Changelog
 
