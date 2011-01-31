@@ -1,0 +1,139 @@
+<head>
+  <title>Page Benchmark Options</title>
+  <style>
+  * {
+    font-family: 'Gill Sans', 'Trebuchet MS', Verdana, Helvetica;
+    font-weight: normal;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  body {
+    min-height: 30px;
+    min-width: 250px;
+    padding: 20px 0 0 0;
+  }
+
+  ul {
+    list-style-type:none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul li {
+    min-height: 30px;
+  }
+
+  ul li a {
+    display: block;
+    min-height: 30px;
+    padding-left: 40px;
+    padding-top: 8px;
+  }
+
+  ul li:hover {
+    background-color: #eef;
+  }
+
+  .error {
+    color: red;
+    font-weight: bold;
+  }
+
+  #shorturl {
+    font-size: 20px;
+    margin: 0 10px;
+  }
+
+  #view-details {
+    background: transparent url(./images/stats.png) 10px 8px no-repeat;
+  }
+
+  #twitter {
+    background: transparent url(./images/twitter.png) 10px 8px no-repeat;
+  }
+
+  #delicious {
+    background: transparent url(./images/delicious.png) 10px 8px no-repeat;
+  }
+
+  #blogmarks {
+    background: transparent url(./images/blogmarks.png) 10px 8px no-repeat;
+  }
+  </style>
+
+  <script src="./jquery-1.4.4.min.js" type="text/javascript"></script>
+  <script>
+  // get the current tab's URI
+  chrome.tabs.getSelected(null, function(tab) {
+    tablink = tab.url;
+    shorten(tab.url);
+  });
+
+  showResult = function() {
+    var url = req.responseText;
+
+    if (200 == req.status) {
+      $('.error').attr('display', 'none');
+
+      $('#shorturl').attr('href', url).html(url);
+      $('#view-details').attr('href', url + '/');
+      var encoded_url = encodeURIComponent(url);
+      $('#twitter').attr('href', 'http://twitter.com/?status=' + encoded_url);
+      $('#delicious').attr('href', 'http://www.delicious.com/save?v=5&noui&jump=close&url=' + encoded_url);
+      $('#blogmarks').attr('href', 'http://blogmarks.net/my/new.php?mini=1&simple=1&url=' + tablink);
+
+      $('#view-details, #twitter, #delicious').click(function(event) {
+        chrome.tabs.create({
+          selected: true,
+          url:      event.srcElement.href
+        });
+        return false;
+      });
+
+      $('#blogmarks').click(function(event) {
+        chrome.windows.create({
+          type:     'popup',
+          width:    425,
+          height:   470,
+          url:      event.srcElement.href
+        });
+        return false;
+      });
+
+      $('.success').attr('display', 'block').attr('height', 'auto');
+    } else {
+      $('.success').remove();
+      $('body').attr('height', '50px');
+      $('.error').html(url);
+      $('.error').attr('border', '1px white solid');
+    }
+  };
+
+  function shorten(tablink) {
+    req = new XMLHttpRequest();
+    var url = "http://api.xav.cc/simple/encode?url=" + encodeURIComponent(tablink);
+    req.open("GET", url, true);
+    req.onload = showResult;
+    req.send(null);
+  }
+  </script>
+</head>
+<body>
+  <div class="success"><a id="shorturl" href="#">&nbsp;</a></div>
+  <div class="error">&nbsp;</div>
+  <div class="success">
+    <ul>
+      <li><a id="view-details" href="#">View details</a></li>
+      <li><a id="twitter" href="#">Twitter</a></li>
+      <li><a id="delicious" href="#">Delicious</a></li>
+      <li><a id="blogmarks" href="#">Blogmarks</a></li>
+    </ul>
+  </div>
+</body>
