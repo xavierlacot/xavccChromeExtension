@@ -13,22 +13,18 @@ showResult = function() {
 
     $('#shorturl').attr('href', short_url).html(short_url);
     $('#view-details').attr('href', short_url + '/');
-    
-    if (preferences.auto_copy) 
-    { 
-        chrome.extension.sendRequest({type: "copy", url: short_url}); 
+
+    if (preferences.auto_copy) {
+      chrome.extension.sendRequest({type: "copy", url: short_url});
+    } else {
+      $("#manual-copy").show();
+      $("#copy").click(function (ev) {
+        ev.preventDefault();
+        chrome.extension.sendRequest({type: "copy", url: short_url});
+        $("#copy").html('Copied!');
+      });
     }
-    else
-    {
-        $("#manual-copy").show();
-        $("#copy").click(function (ev) {
-            ev.preventDefault(); 
-            chrome.extension.sendRequest({type: "copy", url: short_url});
-            $("#copy").html('Copied!');
-        });
-    }
-    
-    
+
     var encoded_url = encodeURIComponent(short_url);
     $('#twitter').attr('href', 'http://twitter.com/?status=' + encoded_url);
     $('#delicious').attr('href', 'http://www.delicious.com/save?v=5&noui&jump=close&url=' + encoded_url);

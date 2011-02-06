@@ -10,6 +10,11 @@ This extension is licensed under the MIT license. Feel free to fork, commit and 
 
 ## Changelog
 
+### Version 1.0.3 - 2011-02-06
+ * added auto-copy option (thanks to Ternel)
+ * added copy link (thanks to Ternel)
+ * added page-title grabbing for blogmarks posting
+
 ### Version 1.0.2 - 2011-01-31
  * initial public release
  * url shortening

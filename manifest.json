@@ -1,6 +1,6 @@
 {
   "name": "xav.cc URL Shortener",
-  "version": "1.0.4",
+  "version": "1.0.3",
   "description": "xav.cc is a full featured URL shortener. It aims at being the most complete and efficient tool on the market.",
   "options_page": "options.html",
   "background_page": "background.html",
