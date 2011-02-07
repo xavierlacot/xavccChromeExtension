@@ -1,18 +1,25 @@
 {
   "name": "xav.cc URL Shortener",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "xav.cc is a full featured URL shortener. It aims at being the most complete and efficient tool on the market.",
-  "options_page": "options.html",
   "background_page": "background.html",
   "browser_action": {
     "default_icon": "icon.png",
     "popup": "popup.html"
   },
- "homepage_url": "http://xav.cc/",
+  "content_scripts": [{
+    "matches"    : ["http://*/*", "https://*/*"],
+    "css"        : [],
+    "js"         : ["js/selection.js"],
+    "run_at"     : "document_end",
+    "all_frames" : true
+  }],
+  "homepage_url": "http://xav.cc/",
   "icons": {
     "16": "images/icon16.png",
     "48": "images/icon48.png",
     "128": "images/icon128.png"
   },
+  "options_page": "options.html",
   "permissions": [ "tabs", "http://api.xav.cc/" ]
 }

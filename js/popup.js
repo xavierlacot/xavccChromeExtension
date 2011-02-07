@@ -1,6 +1,18 @@
+var tabTitle = false;
+var tabSelection = false;
+
 // get the current tab's URI
 chrome.tabs.getSelected(null, function(tab) {
   tablink = tab.url;
+  tabTitle = tab.title;
+  tabSelection = false;
+
+  chrome.tabs.sendRequest(
+    tab.id,
+    { method: 'getSelection' },
+    function(response) { tabSelection = response.data; }
+  );
+
   shorten(tab.url);
 });
 
@@ -38,12 +50,23 @@ showResult = function() {
       return false;
     });
 
+    // blogmarks click handler
     $('#blogmarks').click(function(event) {
+      var url = event.srcElement.href;
+
+      if (tabTitle) {
+        url = url + '&title=' + encodeURIComponent(tabTitle);
+      }
+
+      if (tabSelection) {
+        url = url + '&summary=' + tabSelection;
+      }
+
       chrome.windows.create({
         type:     'popup',
         width:    425,
         height:   470,
-        url:      event.srcElement.href
+        url:      url
       });
       return false;
     });
